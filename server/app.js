@@ -1,21 +1,34 @@
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/doctors', require('./routes/doctorRoutes'));
+app.use('/api/nutritionists', require('./routes/nutritionistRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/admin/crud', require('./routes/adminCrudRoutes'));
+app.use('/api/appointments', require('./routes/appointmentRoutes'));
+app.use('/api/health-tracker', require('./routes/healthTrackerRoutes'));
 
-// Connect to MongoDB
-mongoose.connect("//arwamohey2005:12345@cluster0.imi6b3a.mongodb.net/")
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error'
+  });
+});
 
 module.exports = app;

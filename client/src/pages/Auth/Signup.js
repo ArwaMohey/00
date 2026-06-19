@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaFacebookF, FaGoogle, FaLinkedinIn } from 'react-icons/fa';
 import { authService } from '../../services/api';
 import '../../styles/Auth.css';
 import { useAuth } from '../../components/AuthContext';
@@ -32,13 +33,18 @@ const Signup = () => {
       const { passwordConfirm, ...signupData } = formData;
       const response = await authService.register(signupData);
       if (response.data.success) {
+        localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         setAuthUser(response.data.user);
-        navigate('/login');
+        navigate('/home', { replace: true });
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');
     }
+  };
+
+  const handleSocialClick = (providerName) => {
+    setError(`${providerName} SSO is not enabled for this deployment. Please continue with the registration form.`);
   };
 
   return (
@@ -48,25 +54,25 @@ const Signup = () => {
           <img src="/logo.png" alt="University Health Companion Logo" className="auth-logo" />
         </div>
         <h2>University Health Companion</h2>
-        <p>Your personal health assistant on campus</p>
+        <p>Create your secured student health account.</p>
         <ul className="auth-features">
-          <li><img src="/calendar-icon.png" alt="" /> Easy appointment scheduling</li>
-          <li><img src="/chart-icon.png" alt="" /> Track your health metrics</li>
-          <li><img src="/message-icon.png" alt="" /> Direct messaging with providers</li>
+          <li>Coordinate appointments with trusted specialists.</li>
+          <li>Capture nutrition and wellness trends over time.</li>
+          <li>Stay connected to your university healthcare team.</li>
         </ul>
       </div>
 
       <div className="auth-right-panel">
         <h2>Create Account</h2>
-        <p>Join our health companion service</p>
-        
+        <p>Join your all-in-one campus health ecosystem.</p>
+
         <div className="auth-tabs">
           <Link className="auth-decor" to="/login">Sign In</Link>
           <span className="auth-active-tab">Sign Up</span>
         </div>
 
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <label className="auth-label">Full Name</label>
           <input
@@ -78,7 +84,7 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-          
+
           <label className="auth-label">Student ID</label>
           <input
             type="text"
@@ -89,18 +95,18 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-          
-          <label className="auth-label">Email</label>
+
+          <label className="auth-label">University Email</label>
           <input
             type="email"
             name="email"
             className="auth-input"
-            placeholder="Enter your email"
+            placeholder="you@university.edu"
             value={formData.email}
             onChange={handleChange}
             required
           />
-          
+
           <label className="auth-label">Password</label>
           <input
             type="password"
@@ -111,7 +117,7 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-          
+
           <label className="auth-label">Confirm Password</label>
           <input
             type="password"
@@ -122,18 +128,24 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-          
+
           <button type="submit" className="auth-sign-in">Create Account</button>
         </form>
-        
-        <div className="auth-divider">Or sign up with</div>
-        
-        <div className="auth-social-icons">
-          <div>G</div>
-          <div>f</div>
-          <div>in</div>
+
+        <div className="auth-divider">Or continue with</div>
+
+        <div className="auth-social-icons" aria-label="Social sign up links">
+          <button type="button" onClick={() => handleSocialClick('Google')} aria-label="Google">
+            <FaGoogle />
+          </button>
+          <button type="button" onClick={() => handleSocialClick('Facebook')} aria-label="Facebook">
+            <FaFacebookF />
+          </button>
+          <button type="button" onClick={() => handleSocialClick('LinkedIn')} aria-label="LinkedIn">
+            <FaLinkedinIn />
+          </button>
         </div>
-        
+
         <p className="auth-signup-text">
           Already have an account? <Link to="/login">Sign In</Link>
         </p>

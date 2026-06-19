@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const adminAuth = require('../middleware/adminAuth');
+const createRateLimiter = require('../middleware/rateLimit');
 const User = require('../models/User');
 const Doctor = require('../models/Doctor');
 const Appointment = require('../models/Appointment');
 const EventNews = require('../models/EventNews');
+
+const adminCrudRateLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 240 });
+router.use(adminCrudRateLimiter);
 
 // --- USERS ---
 router.get('/users', adminAuth, async (req, res) => {
@@ -32,7 +36,9 @@ router.delete('/doctors/:id', adminAuth, async (req, res) => {
 
 // --- APPOINTMENTS ---
 router.get('/appointments', adminAuth, async (req, res) => {
-  const appointments = await Appointment.find();
+  const appointments = await Appointment.find()
+    .populate('doctorId', 'name')
+    .populate('studentId', 'name email studentId');
   res.json(appointments);
 });
 router.delete('/appointments/:id', adminAuth, async (req, res) => {
@@ -54,4 +60,4 @@ router.delete('/events-news/:id', adminAuth, async (req, res) => {
   res.json({ message: 'Event/News deleted' });
 });
 
-module.exports = router; 
+module.exports = router;

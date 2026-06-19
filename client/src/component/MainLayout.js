@@ -2,10 +2,10 @@ import React from 'react';
 import Sidebar from './Sidebar';
 
 const MainLayout = ({ children }) => (
-  <div style={{ display: 'flex', minHeight: '100vh' }}>
+  <div className="main-layout">
     <Sidebar />
-    <div style={{ flex: 1, padding: '0' }}>{children}</div>
+    <main className="main-layout-content">{children}</main>
   </div>
 );
 
-export default MainLayout; 
+export default MainLayout;
