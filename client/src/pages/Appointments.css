@@ -1,0 +1,133 @@
+.appointments-main-container {
+  padding: 40px 60px;
+  background: #f3f8fd;
+  min-height: 100vh;
+}
+
+.appointments-main-container h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.appointments-subtitle {
+  color: #6b7a85;
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+}
+
+.appointments-content {
+  display: flex;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.appointments-left {
+  flex: 1.2;
+}
+
+.appointments-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.appointments-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 32px 32px;
+  min-width: 220px;
+  max-width: 600px;
+  margin: 0 auto 24px auto;
+}
+
+.appointments-card h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.appointments-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+  margin-top: 12px;
+}
+
+.appointments-select, .appointments-date {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e3f6fd;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 1rem;
+  background: #f6fcfa;
+}
+
+.appointments-check-btn {
+  width: 100%;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.appointments-check-btn:hover {
+  background: #3399aa;
+}
+
+.appointment-card {
+  background: #f3f8fd;
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.appointment-role {
+  color: #6b7a85;
+  font-size: 0.98rem;
+}
+
+.confirmed {
+  color: #2196f3;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.completed {
+  color: #888;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .appointments-content {
+    flex-direction: column;
+    max-width: 98vw;
+    gap: 18px;
+  }
+  .appointments-card {
+    min-width: unset;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .appointments-card {
+    padding: 18px 6px;
+    max-width: 98vw;
+  }
+} 

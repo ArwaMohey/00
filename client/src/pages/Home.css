@@ -1,0 +1,159 @@
+.home-container {
+  padding: 40px 60px;
+  background: #f3f8fd;
+  min-height: 100vh;
+}
+
+.welcome-section {
+  margin-bottom: 32px;
+}
+
+.welcome-section h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.welcome-section p {
+  color: #6b7a85;
+  font-size: 1.1rem;
+}
+
+.cards-section {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 36px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 32px 32px;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  min-width: 220px;
+  margin: 0 auto 24px auto;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+.card-appointment {
+  background: #e3f6fd url('data:image/svg+xml;utf8,<svg fill="%2300b894" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"/></svg>') center/60% no-repeat;
+}
+.card-health {
+  background: #e3f6fd url('data:image/svg+xml;utf8,<svg fill="%2300b894" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17v2h6v-2H3zm0-4v2h12v-2H3zm0-4v2h18V9H3zm0-4v2h18V5H3z"/></svg>') center/60% no-repeat;
+}
+.card-messages {
+  background: #e3f6fd url('data:image/svg+xml;utf8,<svg fill="%2300b894" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v16l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H6l-2 2V4h16v10z"/></svg>') center/60% no-repeat;
+}
+
+.home-card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.home-card p {
+  color: #6b7a85;
+  margin-bottom: 14px;
+}
+
+.home-card button {
+  background: #fff;
+  border: 1px solid #2196f3;
+  color: #2196f3;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.home-card button:hover {
+  background: #2196f3;
+  color: #fff;
+}
+
+.appointments-section {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  padding: 28px 24px;
+  margin-top: 18px;
+}
+
+.appointments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.appointments-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.view-all {
+  color: #2196f3;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.appointment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.appointment-card {
+  background: #f3f8fd;
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appointment-role {
+  color: #6b7a85;
+  font-size: 0.98rem;
+}
+
+.confirmed {
+  color: #2196f3;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .cards-section {
+    flex-direction: column;
+    max-width: 98vw;
+    gap: 18px;
+  }
+  .home-card {
+    min-width: unset;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-card {
+    padding: 18px 6px;
+    max-width: 98vw;
+  }
+} 
