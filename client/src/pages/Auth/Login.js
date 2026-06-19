@@ -33,6 +33,10 @@ const Login = () => {
     }
   };
 
+  const handleSocialClick = (providerName) => {
+    setError(`${providerName} SSO is not enabled for this deployment. Please sign in with your email and password.`);
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-left-panel">
@@ -92,15 +96,15 @@ const Login = () => {
         <div className="auth-divider">Or continue with</div>
 
         <div className="auth-social-icons" aria-label="Social sign in links">
-          <a href="https://accounts.google.com" target="_blank" rel="noreferrer" aria-label="Google">
+          <button type="button" onClick={() => handleSocialClick('Google')} aria-label="Google">
             <FaGoogle />
-          </a>
-          <a href="https://www.facebook.com/login" target="_blank" rel="noreferrer" aria-label="Facebook">
+          </button>
+          <button type="button" onClick={() => handleSocialClick('Facebook')} aria-label="Facebook">
             <FaFacebookF />
-          </a>
-          <a href="https://www.linkedin.com/login" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          </button>
+          <button type="button" onClick={() => handleSocialClick('LinkedIn')} aria-label="LinkedIn">
             <FaLinkedinIn />
-          </a>
+          </button>
         </div>
 
         <p className="auth-signup-text">

@@ -188,8 +188,8 @@ const HealthTracker = () => {
                     </button>
                   </div>
                   <ul>
-                    {meal.items.map((item) => (
-                      <li key={`${meal._id}-${item}`}>{item}</li>
+                    {meal.items.map((item, index) => (
+                      <li key={`${meal._id}-${index}`}>{item}</li>
                     ))}
                   </ul>
                 </article>

@@ -87,7 +87,13 @@ exports.addMeal = async (req, res) => {
   try {
     const { type, items, calories, macros } = req.body;
 
-    if (!type || !Array.isArray(items) || items.length === 0 || Number.isNaN(Number(calories))) {
+    if (
+      !type ||
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      Number.isNaN(Number(calories)) ||
+      Number(calories) <= 0
+    ) {
       return res.status(400).json({
         success: false,
         message: 'Meal type, items, and calories are required'

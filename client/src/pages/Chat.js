@@ -145,7 +145,7 @@ const Chat = () => {
             </div>
           ) : (
             messages.map((msg, index) => (
-              <div key={`${msg.time}-${index}`} className={`chat-message ${msg.from === 'me' ? 'user' : ''}`}>
+              <div key={index} className={`chat-message ${msg.from === 'me' ? 'user' : ''}`}>
                 <div className="chat-message-bubble">{msg.text}</div>
                 <span className="chat-message-time">{msg.time}</span>
               </div>
