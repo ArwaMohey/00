@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaFacebookF, FaGoogle, FaLinkedinIn } from 'react-icons/fa';
 import { authService } from '../../services/api';
 import '../../styles/Auth.css';
 import { useAuth } from '../../components/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    studentId: '',
+    email: '',
     password: ''
   });
   const [error, setError] = useState('');
@@ -26,7 +27,7 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       setAuthUser(response.data.user);
-      navigate('/home');
+      navigate('/home', { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
@@ -39,37 +40,37 @@ const Login = () => {
           <img src="/logo.png" alt="University Health Companion Logo" className="auth-logo" />
         </div>
         <h2>University Health Companion</h2>
-        <p>Your personal health assistant on campus</p>
+        <p>Your trusted digital health partner on campus.</p>
         <ul className="auth-features">
-          <li><img src="/calendar-icon.png" alt="" /> Easy appointment scheduling</li>
-          <li><img src="/chart-icon.png" alt="" /> Track your health metrics</li>
-          <li><img src="/message-icon.png" alt="" /> Direct messaging with providers</li>
+          <li>Book appointments in minutes with verified physicians.</li>
+          <li>Track calories and nutrition from one dashboard.</li>
+          <li>Access secure doctor communication anytime.</li>
         </ul>
       </div>
 
       <div className="auth-right-panel">
         <h2>Welcome Back</h2>
-        <p>Please sign in to continue to your health dashboard</p>
-        
+        <p>Sign in to continue to your healthcare dashboard.</p>
+
         <div className="auth-tabs">
           <span className="auth-active-tab">Sign In</span>
           <Link className="auth-decor" to="/signup">Sign Up</Link>
         </div>
 
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
-          <label className="auth-label">Student ID</label>
+          <label className="auth-label">University Email</label>
           <input
-            type="text"
-            name="studentId"
+            type="email"
+            name="email"
             className="auth-input"
-            placeholder="Enter your student ID"
-            value={formData.studentId}
+            placeholder="you@university.edu"
+            value={formData.email}
             onChange={handleChange}
             required
           />
-          
+
           <label className="auth-label">Password</label>
           <input
             type="password"
@@ -80,24 +81,30 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          
+
           <div className="auth-forgot">
-            <Link to="/forgot-password">Forgot password?</Link>
+            <a href="mailto:support@uhc-campus.app">Need sign-in help?</a>
           </div>
-          
+
           <button type="submit" className="auth-sign-in">Sign In</button>
         </form>
-        
+
         <div className="auth-divider">Or continue with</div>
-        
-        <div className="auth-social-icons">
-          <div>G</div>
-          <div>f</div>
-          <div>in</div>
+
+        <div className="auth-social-icons" aria-label="Social sign in links">
+          <a href="https://accounts.google.com" target="_blank" rel="noreferrer" aria-label="Google">
+            <FaGoogle />
+          </a>
+          <a href="https://www.facebook.com/login" target="_blank" rel="noreferrer" aria-label="Facebook">
+            <FaFacebookF />
+          </a>
+          <a href="https://www.linkedin.com/login" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <FaLinkedinIn />
+          </a>
         </div>
-        
+
         <p className="auth-signup-text">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+          Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
         </p>
       </div>
     </div>

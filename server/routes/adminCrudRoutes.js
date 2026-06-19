@@ -32,7 +32,7 @@ router.delete('/doctors/:id', adminAuth, async (req, res) => {
 
 // --- APPOINTMENTS ---
 router.get('/appointments', adminAuth, async (req, res) => {
-  const appointments = await Appointment.find();
+  const appointments = await Appointment.find().populate('doctorId', 'name').populate('studentId', 'name email studentId');
   res.json(appointments);
 });
 router.delete('/appointments/:id', adminAuth, async (req, res) => {

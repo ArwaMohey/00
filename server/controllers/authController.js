@@ -1,35 +1,53 @@
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '90d'
+const sendAuthResponse = (user, statusCode, res) => {
+  const token = user.getSignedJwtToken();
+
+  res.status(statusCode).json({
+    success: true,
+    token,
+    user: {
+      id: user._id,
+      name: user.name,
+      studentId: user.studentId,
+      email: user.email,
+      role: user.role,
+      profile: user.profile
+    }
   });
 };
 
-// @desc    Register user
-// @route   POST /api/auth/register
-// @access  Public
 exports.register = async (req, res) => {
   try {
-    console.log('Register request received:', req.body);
     const { name, studentId, email, password } = req.body;
 
-    // Check if user exists
-    const userExists = await User.findOne({ studentId });
-    if (userExists) {
-      console.log('User already exists:', studentId);
+    if (!name || !studentId || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists'
+        message: 'Please provide name, student ID, email, and password'
       });
     }
 
-    // Create user with profile
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const existingUser = await User.findOne({
+      $or: [{ studentId }, { email: normalizedEmail }]
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message:
+          existingUser.email === normalizedEmail
+            ? 'Email is already registered'
+            : 'Student ID is already registered'
+      });
+    }
+
     const user = await User.create({
       name,
       studentId,
-      email,
+      email: normalizedEmail,
       password,
       profile: {
         avatar: 'default-avatar.png',
@@ -40,25 +58,8 @@ exports.register = async (req, res) => {
       }
     });
 
-    console.log('User created successfully:', user._id);
-    
-    // Generate token
-    const token = user.getSignedJwtToken();
-
-    res.status(201).json({
-      success: true,
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        studentId: user.studentId,
-        email: user.email,
-        role: user.role,
-        profile: user.profile
-      }
-    });
+    sendAuthResponse(user, 201, res);
   } catch (error) {
-    console.error('Registration error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Server Error'
@@ -66,23 +67,21 @@ exports.register = async (req, res) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
 exports.login = async (req, res) => {
   try {
-    const { studentId, password } = req.body;
+    const { email, password } = req.body;
 
-    // Validate studentId & password
-    if (!studentId || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide a student ID and password'
+        message: 'Please provide an email and password'
       });
     }
 
-    // Check for user
-    const user = await User.findOne({ studentId }).select('+password');
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -90,7 +89,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({
@@ -99,42 +97,11 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate token
-    const token = user.getSignedJwtToken();
-
-    res.status(200).json({
-      success: true,
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        studentId: user.studentId,
-        email: user.email,
-        role: user.role,
-        profile: user.profile
-      }
-    });
+    sendAuthResponse(user, 200, res);
   } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Server Error'
     });
   }
-};
-
-// Get token from model, create cookie and send response
-const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
-  const token = user.getSignedJwtToken();
-
-  res.status(statusCode).json({
-    success: true,
-    token,
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role
-    }
-  });
 };
